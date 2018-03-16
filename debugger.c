@@ -3,10 +3,17 @@
 #include <stdio.h>
 #include <signal.h>
 
+void usage(void){
+	fprintf(stderr, "Usage: debugger <PID> <mem_offset>\n");
+}
 
 int main(int argc, char **argv){
 
-	//TODO: Add clarg checking
+	if(argc != 3){
+		usage();
+		return EXIT_FAILURE;
+	}
+
 	pid_t pid = (pid_t)strtol(argv[1], NULL, 10);
 	long offset = strtol(argv[2], NULL, 16);
 
