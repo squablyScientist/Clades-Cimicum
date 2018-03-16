@@ -1,3 +1,19 @@
+//TODO: segment functionality
+//TODO: implement an output format choice
+//TODO: implement a choice for how many bytes to read
+//TODO: add autocompletion for the names of processes
+//TODO: allow for '0x' at the beginning of memory address
+//TODO: add getopt options for various output formatting
+
+/*
+ * Clades Cīmicis : Bane of Bugs
+ *
+ * A small, rudimentary interprocess debugger that can stop anoter process given
+ * a PID, read, and output a piece of memory from that process. 
+ *
+ * Author: Collin Tod
+ */
+
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
