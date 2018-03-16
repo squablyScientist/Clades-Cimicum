@@ -1,3 +1,6 @@
 #remove binary files
 tester
 debugger
+
+# Ignore memory address file
+memoryplantaddr.txt

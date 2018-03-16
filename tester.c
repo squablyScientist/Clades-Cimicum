@@ -6,7 +6,6 @@
  * correct or not, and a way to show if the process has been stopped or not.
  * Author: Collin Tod
  *
- * TODO: Add automatic addr dumping once memory is allocated
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +15,12 @@ int main(int argc, char **argv){
 	//of this memory is in the file memoryplantaddr.txt
 	int *memoryplant = malloc(sizeof(int));
 	*memoryplant = argc;
+
+	FILE *memplantfile = fopen("memoryplantaddr.txt", "w");
+
+	fprintf(memplantfile, "%p", memoryplant);
+
+	fclose(memplantfile);
 
 	while(1){
 		printf("Running\n");

@@ -1,5 +1,3 @@
-//TODO: figure out how to account for the difference in the gdb environment and
-//the basic shell environment (i.e. mem address offsets)
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
