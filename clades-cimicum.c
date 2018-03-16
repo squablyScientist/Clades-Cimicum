@@ -6,7 +6,7 @@
 //TODO: add getopt options for various output formatting
 
 /*
- * Clades Cīmicis : Bane of Bugs
+ * Clades Cīmicum : Bane of Bugs
  *
  * A small, rudimentary interprocess debugger that can stop anoter process given
  * a PID, read, and output a piece of memory from that process. 
