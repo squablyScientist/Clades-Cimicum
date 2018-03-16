@@ -39,8 +39,8 @@ int main(int argc, char **argv){
 
 	/*
 	 * Seek to the correct offset in the file
-	 * It is very important that the memory at offset is actually allocated. If
-	 * it is not allocated in the other process, then reading from the
+	 * It is very important that the memory at offset is actually mapped. If
+	 * it is not mapped in the other process, then reading from the
 	 * /proc/PID/mem file will result in an EIO (i.e. an Input output error).
 	 */
 	fseek(memfile, offset, SEEK_SET);
