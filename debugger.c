@@ -1,3 +1,5 @@
+//TODO: figure out how to account for the difference in the gdb environment and
+//the basic shell environment (i.e. mem address offsets)
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
@@ -21,6 +23,7 @@ int main(int argc, char **argv){
 
 	// Generates the filename of the process's mem file.
 	sprintf(memfilename, "/proc/%d/mem", pid);
+
 
 	// Opens the mem file 
 	FILE *memfile = fopen(memfilename, "r");
@@ -53,6 +56,8 @@ int main(int argc, char **argv){
 		perror("fgets");
 		return 1;
 	}
+
+	fclose(memfile);
 
 	// TODO: make this more robust and able to handle different lengths of mem.
 	// Prints out the memory read from the file
