@@ -6,4 +6,5 @@ debugger: clades-cimicum.o
 clades-cimicum.o: clades-cimicum.c
 	$(CC) $(CFLAGS) -c clades-cimicum.c
 
-
+clean:
+	rm *.o
