@@ -4,3 +4,6 @@ debugger
 
 # Ignore memory address file
 memoryplantaddr.txt
+
+# Ignores any left over object files
+*.o

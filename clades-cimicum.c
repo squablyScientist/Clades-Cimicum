@@ -17,6 +17,8 @@
 #include <stdio.h>
 #include <signal.h>
 #include <sys/ptrace.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 void usage(void){
 	fprintf(stderr, "Usage: debugger <PID> <mem_offset> <length>\n");
@@ -64,6 +66,8 @@ int readmemory(char *buf, pid_t pid, long offset, size_t length){
 	//TODO: Find a way to do this that doesn't mess with SIGINT later
 	// Continues the process since it no longer needs to be stopped
 	kill(pid, SIGCONT);
+
+	return 0;
 
 }
 
@@ -134,7 +138,7 @@ int main(int argc, char **argv){
 	//TODO: make this able to handle different formats than just integers.
 	// Prints out the memory read from the file
 	
-	printf("Memory at %p: ", offset);
+	printf("Memory at %p: ", (void*)offset);
 	for(int i = 0; i < length; i++){
 		printf("%d", buf[i]);
 	}

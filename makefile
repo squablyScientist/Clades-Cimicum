@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -pedantic -std=c99 -Wall -Wextra -Werror 
+CFLAGS = -pedantic -std=c99 -Wall -Wextra -Werror -D_POSIX_C_SOURCE
 debugger: clades-cimicum.o
 	$(CC) $(CFLAGS) clades-cimicum.o -o debugger
 
