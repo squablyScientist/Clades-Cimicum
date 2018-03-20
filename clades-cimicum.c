@@ -16,6 +16,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <signal.h>
+#include <sys/ptrace.h>
 
 void usage(void){
 	fprintf(stderr, "Usage: debugger <PID> <mem_offset> <length>\n");
@@ -64,6 +65,50 @@ int readmemory(char *buf, pid_t pid, long offset, size_t length){
 	// Continues the process since it no longer needs to be stopped
 	kill(pid, SIGCONT);
 
+}
+
+/**
+ * Reads the memory at a certain address of another process utilizing the ptrace
+ * system call rather than normal file IO. This function will print an error and
+ * return a 1 if it is unsuccessful. The result of this function will be stored
+ * at buf as contiguous bytes.
+ *
+ * @param buf: A char pointer that points to the location in which the memory
+ * read from ptrace will be stored. It is important that at least length bytes
+ * of memory are reserved there.
+ * @param pid: The process id of the process whose memory is to be read
+ * @param offset: The memory address of the first byte to be read
+ * @param length: The number of bytes to read
+ *
+ * @return: 0 if the operation is successful, 1 otherwise.
+ */
+int ptraceMem(char *buf, pid_t pid, long offset, size_t length){
+	// Attach to the tracee, stopping it temporarily to avoid race condition
+	ptrace(PTRACE_ATTACH, pid, 0, 0);
+
+	// Makes sure that the attaching was successful. If not report and exit
+	if(errno){
+		perror("attach");
+		return 1;
+	}
+
+	// Reads length bytes and stores them at buf
+	for(size_t i = 0; i < length; i++){
+
+		*(buf + i)= ptrace(PTRACE_PEEKDATA, pid, offset + (long)i, 0);
+	}
+
+
+	// If there is an issue, report it, detach, and return
+	if(errno){
+		perror("peekdata");
+		ptrace(PTRACE_DETACH, pid, 0, 0);
+		return 1;
+	}
+
+	// Detach from the process, allowing normal operation to resume
+	ptrace(PTRACE_DETACH, pid, 0, 0);
+
 	return 0;
 }
 
@@ -82,7 +127,7 @@ int main(int argc, char **argv){
 	char buf[length+1]; //The buffer that will hold the memory read in 
 
 	// Reads the memory and makes sure that it was successful. If it wasn't exit
-	if(readmemory(buf, pid, offset, length) != 0){
+	if(ptraceMem(buf, pid, offset, length) != 0){
 		return EXIT_FAILURE;
 	}
 
