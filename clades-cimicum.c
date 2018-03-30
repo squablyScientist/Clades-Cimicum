@@ -131,7 +131,7 @@ int main(int argc, char **argv){
 	char buf[length+1]; //The buffer that will hold the memory read in 
 
 	// Reads the memory and makes sure that it was successful. If it wasn't exit
-	if(ptraceMem(buf, pid, offset, length) != 0){
+	if(readmemory(buf, pid, offset, length) != 0){
 		return EXIT_FAILURE;
 	}
 
@@ -140,7 +140,8 @@ int main(int argc, char **argv){
 	
 	printf("Memory at %p: ", (void*)offset);
 	for(int i = 0; i < length; i++){
-		printf("%d", buf[i]);
+		printf("%d", buf[i] | (buf[i+1] << 8) | (buf[i+2] << 16) | (buf[i+3] << 24));
+		i+=3;
 	}
 	printf("\n");
 
