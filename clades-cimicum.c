@@ -24,6 +24,13 @@ void usage(void){
 	fprintf(stderr, "Usage: debugger <PID> <mem_offset> <length>\n");
 }
 
+int byte_to_int(char *byte){
+	
+	int integer = byte[0] | (byte[1] << 8) | (byte[2] << 16) | (byte[3] << 24);
+
+	return integer;
+}
+
 int readmemory(char *buf, pid_t pid, long offset, size_t length){
 
 	char memfilename[32];
