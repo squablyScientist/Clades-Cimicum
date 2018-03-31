@@ -64,6 +64,9 @@ int readmemory(char *buf, pid_t pid, long offset, size_t length){
 	// Makes sure that the read from the mem file was successful
 	if(errno){
 		perror("fgets");
+
+		// Makes sure that the program continues if reading failed
+		kill(pid, SIGCONT);
 		return 1;
 	}
 
