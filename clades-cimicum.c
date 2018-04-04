@@ -19,6 +19,7 @@
 #include <sys/ptrace.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include "injector.h"
 
 void usage(void){
 	fprintf(stderr, "Usage: debugger <PID> <mem_offset> <length>\n");
@@ -148,11 +149,19 @@ int main(int argc, char **argv){
 	//TODO: make this able to handle different formats than just integers.
 	// Prints out the memory read from the file
 	
+	char inject_buf[33];
+
 	printf("Memory at %p: ", (void*)offset);
 	for(int i = 0; i < length; i++){
-		printf("%d", buf[i] | (buf[i+1] << 8) | (buf[i+2] << 16) | (buf[i+3] << 24));
+		int integer = byte_to_int(buf+i);
+		sprintf(inject_buf, "%d", integer);
+		printf("%d", integer);
+		inject(pid, inject_buf); 
 		i+=3;
 	}
+
+	char eof_str[] = {EOF, '\0'};
+	inject(pid, eof_str);
 	printf("\n");
 
 	return 0;

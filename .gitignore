@@ -1,5 +1,6 @@
 #remove binary files
 tester
+inject
 debugger
 
 # Ignore memory address file
