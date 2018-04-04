@@ -32,11 +32,11 @@ captcha process:
 ```sh
 sudo debugger PID `./getAddress.sh gdb.txt` num_of_bytes
 ```
-	* Note: There is a bug in the captcha code where the number of digits
-	displayed is not always consistant, so make sure the num_of_bytes is 4 * 
-	the number of digits. It should be 4 digits the majority of the time.
-	* Other Note: To find the PID, it is suggested that `pgrep captcha` is used
-	 to streamline the process
+* Note: There is a bug in the captcha code where the number of digits
+displayed is not always consistant, so make sure the num_of_bytes is 4 * 
+the number of digits. It should be 4 digits the majority of the time.
+* Other Note: To find the PID, it is suggested that `pgrep captcha` is used
+ to streamline the process
 4. And you're done! The correct answer should be displayed in integers and also
    be injected into the sdtin of the captcha process!
 
