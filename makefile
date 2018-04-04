@@ -9,5 +9,7 @@ clades-cimicum.o: clades-cimicum.c
 injector.o: injector.c
 	$(CC) $(CFLAGS) -c injector.c
 
+captcha: captcha.c
+	cc captcha.c -o captcha
 clean:
 	rm *.o

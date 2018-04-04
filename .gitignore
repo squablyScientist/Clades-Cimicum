@@ -2,9 +2,13 @@
 tester
 inject
 debugger
+captcha
 
 # Ignore memory address file
 memoryplantaddr.txt
 
 # Ignores any left over object files
 *.o
+
+# Ignores the gdb logging file
+gdb.txt
