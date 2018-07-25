@@ -181,7 +181,7 @@ int main(int argc, char **argv){
 	
 	printf("Memory at %p: ", (void*)offset);
 	for(int i = 0; i < length; i++){
-		printf("%d", buf[i] | (buf[i+1] << 8) | (buf[i+2] << 16) | (buf[i+3] << 24));
+		printf("%d", byte_to_int(buf + i));
 		i+=3;
 	}
 	printf("\n");
