@@ -20,10 +20,26 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+/**
+ * Prints a basic usage statement about the program to stderr
+ */
 void usage(void){
 	fprintf(stderr, "Usage: debugger <PID> <mem_offset> <length>\n");
 }
 
+/**
+ * Converts an array of 4 bytes into an integer value using bitshifting. There
+ * is no size argument because an int is always 4 bytes long. However, there
+ * must be at least 4 allocated bytes at the address byte, or undefined
+ * behaviour will ensue. 
+ *
+ * @param byte: The memory address of 4 contiguous bytes to be converted into an
+ * int value by bitshifting. These bytes must be in little-endian order for the
+ * conversion to give the expected vallue.
+ *
+ * @return: An integer value that was represented in little-endian order at the
+ * memory address byte.
+ */
 int byte_to_int(char *byte){
 	
 	int integer = byte[0] | (byte[1] << 8) | (byte[2] << 16) | (byte[3] << 24);
@@ -31,9 +47,24 @@ int byte_to_int(char *byte){
 	return integer;
 }
 
+/**
+ * Reads memory from /proc/PID/mem. This file holds the vitrual memory for a
+ * running process in a virtual file, and can only be accessed when the process
+ * is stopped. 
+ *
+ * @param buf: The memory location in which the read memory from the target
+ * process will be stored
+ * @oaram pid: The PID of the target process
+ * @param offset: A long that is the address of the firt byte of memory to be
+ * read from the target process
+ * @param length: The number of bytes to read from the target process, starting
+ * at offset
+ *
+ * @return: 1 if an error has occurred, 0 otherwise.
+ */
 int readmemory(char *buf, pid_t pid, long offset, size_t length){
 
-	char memfilename[32];
+	char memfilename[32]; /// The filename of the memory file in /proc
 
 	// Generates the filename of the process's mem file.
 	sprintf(memfilename, "/proc/%d/mem", pid);
